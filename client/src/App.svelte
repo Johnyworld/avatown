@@ -10,7 +10,7 @@
   })
 </script>
 
-<style>
+<style lang="scss">
   :global(body) {
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
@@ -18,12 +18,11 @@
 
   .App {
     text-align: center;
-  }
-
-  .App code {
-    background: #0002;
-    padding: 4px 8px;
-    border-radius: 4px;
+    code {
+      background: #0002;
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
   }
 
   .App p {
