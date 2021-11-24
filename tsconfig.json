@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es6",                          /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019', 'ES2020', or 'ESNEXT'. */
+    "module": "commonjs",                     /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', 'es2020', or 'ESNext'. */
+    // "lib": ["ES5", "ES6", "ES2016", "ES2017", "ES2018", "ES2019", "ES2020", "DOM"],                             /* Specify library files to be included in the compilation. */
+    "moduleResolution": "node",
+    // "preserveConstEnums": true,
+    "esModuleInterop": true,
+    "strict": true,
+
+    // tsc를 사용해 .js 파일이 아닌 .d.ts 파일이 생성되었는지 확인합니다.
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    // Babel이 TypeScript 프로젝트의 파일을 안전하게 트랜스파일할 수 있는지 확인합니다.
+    "isolatedModules": true
+  },
+}
