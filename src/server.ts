@@ -1,7 +1,11 @@
 import express from 'express';
 
 const app = express();
+const root = require('path').join(__dirname, 'public');
 
-console.log('hello');
+app.get("*", (req, res) => { res.sendFile('index.html', { root }); })
 
-app.listen(3000);
+const port = process.env.PORT || 4004;
+app.listen(port, () => {
+	console.log(`✅ Running on http://localhost:${port}`);
+});
