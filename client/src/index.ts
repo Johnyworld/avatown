@@ -1,4 +1,7 @@
 import App from './App.svelte';
+import io from 'socket.io-client';
+
+export const socket = io('http://localhost:4004');
 
 var app = new App({
   target: document.body,
@@ -14,3 +17,5 @@ if (import.meta.hot) {
     app.$destroy();
   });
 }
+
+
