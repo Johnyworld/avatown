@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { Router, Route, Link } from "svelte-routing";
-  import HomeScreen from '~/routes/HomeScreen.svelte';
-  import AboutScreen from '~/routes/AboutScreen.svelte';
+  import { Router, Route, Link } from 'svelte-routing'
+  import HomeScreen from '~/routes/HomeScreen.svelte'
+  import AboutScreen from '~/routes/AboutScreen.svelte'
   import {onMount} from 'svelte'
 
   let count: number = 0
@@ -11,6 +11,9 @@
       clearInterval(interval)
     }
   })
+  const socket = new WebSocket('ws://localhost:4004/');
+  console.log('===== App', socket);
+
 </script>
 
 <style lang="scss">
