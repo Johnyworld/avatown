@@ -5,14 +5,22 @@
 
 	let input: HTMLInputElement | null = null
 	let value = ''
-	let messages: string[] = []
 	let isOpenRoomForm = false;
 
 	const handleCreateRoom = () => {
-		socket.emit('room_create', { payload: value }, (payload: any) => {
-			console.log('Joined to ', payload);
-			navigate(`/room/${payload.roomName}`);
+		socket.emit('room_create', { payload: value }, (payload: string) => {
+			navigate(`/room/${payload}`);
 		})
+	}
+
+	const handleJoinRoom = () => {
+		socket.emit('room_join', value, ({ ok, data, message }: any) => {
+			if (ok) {
+				navigate(`/room/${data}`);
+			} else {
+				alert(message);
+			}
+		});
 	}
 
 	const handleOpenRoomForm = () => {
@@ -38,12 +46,7 @@
 		<form on:submit={handleSubmit}>
 			<p>방 코드 입력</p>
 			<input required bind:value={value} bind:this={input} />
-			<button>입장</button>
-			<ul>
-				{#each messages as message}
-					<li>{message}</li>
-				{/each}
-			</ul>
+			<button on:click={handleJoinRoom}>입장</button>
 		</form>
 	{/if}
 </main>

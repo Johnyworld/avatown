@@ -1,4 +1,5 @@
-import { Server } from "socket.io";
+import { Server, Socket } from "socket.io";
+
 
 const getActiveRooms = (io: Server) => {
 	// Convert map into 2D list:
@@ -9,10 +10,14 @@ const getActiveRooms = (io: Server) => {
 	const filtered = arr.filter(room => !room[1].has(room[0]))
 	// Return only the room name: 
 	// ==> ['room1', 'room2']
-	const res = filtered.map(i => i[0]);
-	return res;
+	return filtered.map(i => i[0]);
+}
+
+const getMyRooms = (socket: Socket) => {
+	return Array.from(socket.rooms);
 }
 
 export default {
 	getActiveRooms,
+	getMyRooms,
 }

@@ -21,12 +21,27 @@ io.on('connection', socket => {
 
 	socket.on('room_create', (data, cb) => {
 		socket.join('X87aO');
-		cb({ roomName: 'X87aO' })
+		cb('X87aO')
+	})
+
+	socket.on('room_join', (data: string, cb) => {
+		const rooms = socketUtils.getActiveRooms(io);
+		if (rooms.includes(data)) {
+			socket.join(data);
+			cb({ ok: true, data });
+		} else {
+			cb({ ok: false, message: 'room is not exists', data });
+		}
 	})
 
 	socket.on('room_get_list', (cb) => {
 		const rooms = socketUtils.getActiveRooms(io);
 		cb({ rooms });
+	})
+
+	socket.on('message_send', (data) => {
+		console.log('===== message_send', data);
+		socket.to(data.room).emit('message_resend', data);
 	})
 
 })
