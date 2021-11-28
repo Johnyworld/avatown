@@ -5,6 +5,8 @@
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
   import roomStore from "./store/roomStore";
+import LoginScreen from "./routes/LoginScreen.svelte";
+import userStore from "./store/userStore";
 </script>
 
 <style lang="scss">
@@ -17,7 +19,10 @@
 </style>
 
 <div class='root'>
-  <Router url=''>
+  {#if $userStore.userInfo}
+    <p>로그인 된 유저: {$userStore.userInfo.username}</p>
+  {/if}
+  <Router>
     {#if !$roomStore.code}
       <nav>
         <Link to='/'>Home</Link>
@@ -25,6 +30,7 @@
       </nav>
       <Route path='/' component={HomeScreen} />
       <Route path='/room' component={RoomsScreen} /> 
+      <Route path='/login' component={LoginScreen} /> 
     {:else}
       <Route path='/' component={RoomScreen} />
     {/if}

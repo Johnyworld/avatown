@@ -12,9 +12,11 @@
 
 	const handleSubmit: svelte.JSX.FormEventHandler<HTMLFormElement> = e => {
 		e.preventDefault()
-		socket.emit('message_send', { room: 'X87aO', user: 'Hello', message: value })
-		messages = [...messages, { user: 'You', message: input?.value || '' }]
-		if (input) input.value = '';
+		if (value) {
+			socket.emit('message_send', { room: $roomStore.code, message: value })
+			messages = [...messages, { user: 'You', message: value }]
+			if (input) input.value = '';
+		}
 	}
 
 	const handleLeaveRoom = () => {

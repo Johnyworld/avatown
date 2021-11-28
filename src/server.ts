@@ -24,13 +24,15 @@ io.on('connection', socket => {
 		cb('X87aO')
 	})
 
-	socket.on('room_join', (data: string, cb) => {
+	socket.on('room_join', ({ room, name }, cb) => {
+		socket.data = { ...socket.data, name };
 		const rooms = socketUtils.getActiveRooms(io);
-		if (rooms.includes(data)) {
-			socket.join(data);
-			cb({ ok: true, data });
+		console.log('===== server', rooms, room, name);
+		if (rooms.includes(room)) {
+			socket.join(room);
+			cb({ ok: true, data: room });
 		} else {
-			cb({ ok: false, message: 'room is not exists', data });
+			cb({ ok: false, message: 'room is not exists', data: room });
 		}
 	})
 
@@ -50,8 +52,9 @@ io.on('connection', socket => {
 		}
 	})
 
-	socket.on('message_send', (data) => {
-		socket.to(data.room).emit('message_send', data);
+	socket.on('message_send', ({ room, message }) => {
+		console.log('===== server', socket.data);
+		socket.to(room).emit('message_send', { room, message, user: socket.data.name });
 	})
 
 })
