@@ -1,8 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { socket } from '..';
-  import { navigate } from 'svelte-routing'
-	import { currentRoom } from '~/store/roomStore';
+	import roomStore from '~/store/roomStore';
 
 	let input: HTMLInputElement | null = null
 	let value = ''
@@ -10,14 +9,14 @@
 
 	const handleCreateRoom = () => {
 		socket.emit('room_create', { payload: value }, (payload: string) => {
-			currentRoom.update(() => { return { code: payload }});
+			roomStore.updateCode(payload);
 		})
 	}
 
 	const handleJoinRoom = () => {
 		socket.emit('room_join', value, ({ ok, data, message }: any) => {
 			if (ok) {
-				navigate(`/room/${data}`);
+				roomStore.updateCode(data);
 			} else {
 				alert(message);
 			}

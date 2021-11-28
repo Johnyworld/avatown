@@ -4,7 +4,7 @@
   import HomeScreen from '~/routes/HomeScreen.svelte'
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
-  import { currentRoom } from "./store/roomStore";
+  import roomStore from "./store/roomStore";
 </script>
 
 <style lang="scss">
@@ -18,7 +18,7 @@
 
 <div class='root'>
   <Router url=''>
-    {#if !$currentRoom.code}
+    {#if !$roomStore.code}
       <nav>
         <Link to='/'>Home</Link>
         <Link to='/room'>Rooms</Link>

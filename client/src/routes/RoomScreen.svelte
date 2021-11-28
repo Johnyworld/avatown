@@ -1,5 +1,5 @@
 <script lang='ts'>
-	import { currentRoom } from "~/store/roomStore";
+	import roomStore from "~/store/roomStore";
 
 	import { socket } from "..";
 
@@ -18,9 +18,9 @@
 	}
 
 	const handleLeaveRoom = () => {
-		socket.emit('room_leave', { user: 'Hello', room: $currentRoom.code }, ({ ok }: any) => {
+		socket.emit('room_leave', { user: 'Hello', room: $roomStore.code }, ({ ok }: any) => {
 			if (ok) {
-				currentRoom.update(() => { return { code: '' }});
+				roomStore.resetCode();
 			} else {
 				alert('실패함')
 			}
@@ -38,7 +38,7 @@
 </script>
 
 <div>
-	<h1>Room: {$currentRoom.code}</h1>
+	<h1>Room: {$roomStore.code}</h1>
 	<!-- <p>회의 ID: <b>{id}</b></p> -->
 
 	<form on:submit={handleSubmit}>

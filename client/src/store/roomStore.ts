@@ -1,5 +1,15 @@
 import { writable } from 'svelte/store';
 
-export const currentRoom = writable({
+const state = writable({
 	code: '',
 });
+
+export default {
+	...state,
+	updateCode: (code: string) => {
+		state.update(() => { return { code }})
+	},
+	resetCode: () => {
+		state.set({ code: '' })
+	},
+}
