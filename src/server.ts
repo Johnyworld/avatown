@@ -1,6 +1,7 @@
 import http from 'http';
 import SocketIO from 'socket.io';
 import express from 'express';
+import socketUtils from './utils/socketUtils';
 
 const app = express()
 const root = require('path').join(__dirname, '..', 'client', 'build')
@@ -16,12 +17,16 @@ const io = new SocketIO.Server(server, { cors: {
 }});
 
 io.on('connection', socket => {
-	console.log('---- connected', socket.id);
+	console.log('--- connected', socket.id);
 
 	socket.on('room_create', (data, cb) => {
-		console.log('RoomCreate', data);
 		socket.join('Room');
 		cb({ roomName: 'Room' })
+	})
+
+	socket.on('room_get_list', (cb) => {
+		const rooms = socketUtils.getActiveRooms(io);
+		cb({ rooms });
 	})
 
 })

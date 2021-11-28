@@ -10,7 +10,7 @@
 
 	const handleCreateRoom = () => {
 		socket.emit('room_create', { payload: value }, (payload: any) => {
-			console.log('Joined to ', payload.roomName);
+			console.log('Joined to ', payload);
 			navigate(`/room/${payload.roomName}`);
 		})
 	}

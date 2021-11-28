@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createPortal } from "./portal";
-  import { Router, Route } from 'svelte-routing'
+  import { Router, Route, Link } from 'svelte-routing'
   import HomeScreen from '~/routes/HomeScreen.svelte'
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
@@ -17,6 +17,10 @@
 
 <div class='root'>
   <Router url=''>
+    <nav>
+      <Link to='/'>Home</Link>
+      <Link to='/room'>Rooms</Link>
+    </nav>
     <Route path='/' component={HomeScreen} />
     <Route path='/room' component={RoomsScreen} /> 
     <Route path='/room/:id' component={RoomScreen} /> 
