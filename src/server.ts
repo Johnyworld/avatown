@@ -16,7 +16,14 @@ const io = new SocketIO.Server(server, { cors: {
 }});
 
 io.on('connection', socket => {
-	console.log('---- connected');
+	console.log('---- connected', socket.id);
+
+	socket.on('room_create', (data, cb) => {
+		console.log('RoomCreate', data);
+		socket.join('Room');
+		cb({ roomName: 'Room' })
+	})
+
 })
 
 server.listen(port, () => {

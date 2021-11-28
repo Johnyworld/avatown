@@ -1,20 +1,26 @@
 <script lang="ts">
-  import { Router, Route, Link } from 'svelte-routing'
+  import { createPortal } from "./portal";
+  import { Router, Route } from 'svelte-routing'
   import HomeScreen from '~/routes/HomeScreen.svelte'
-  import AboutScreen from '~/routes/AboutScreen.svelte'
+  import RoomsScreen from "./routes/RoomsScreen.svelte";
+  import RoomScreen from "./routes/RoomScreen.svelte";
 </script>
 
 <style lang="scss">
   @import './style';
+  .modals {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
 </style>
 
-<Router url=''>
-  <nav>
-    <Link to="/">Home</Link>
-    <Link to="about">About</Link>
-  </nav>
-  <Route path="/">
-    <HomeScreen />
-  </Route>
-  <Route path="/about" component={AboutScreen} /> 
-</Router>
+<div class='root'>
+  <Router url=''>
+    <Route path='/' component={HomeScreen} />
+    <Route path='/room' component={RoomsScreen} /> 
+    <Route path='/room/:id' component={RoomScreen} /> 
+  </Router>
+  
+  <div use:createPortal={'modals'} class='modals' />
+</div>
