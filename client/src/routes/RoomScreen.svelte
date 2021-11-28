@@ -4,5 +4,5 @@
 
 <div>
 	<h1>Room</h1>
-	<p>{id}</p>
+	<p>회의 ID: <b>{id}</b></p>
 </div>

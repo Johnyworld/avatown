@@ -20,8 +20,8 @@ io.on('connection', socket => {
 	console.log('--- connected', socket.id);
 
 	socket.on('room_create', (data, cb) => {
-		socket.join('Room');
-		cb({ roomName: 'Room' })
+		socket.join('X87aO');
+		cb({ roomName: 'X87aO' })
 	})
 
 	socket.on('room_get_list', (cb) => {

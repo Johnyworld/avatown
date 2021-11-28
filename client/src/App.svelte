@@ -25,6 +25,5 @@
     <Route path='/room' component={RoomsScreen} /> 
     <Route path='/room/:id' component={RoomScreen} /> 
   </Router>
-  
   <div use:createPortal={'modals'} class='modals' />
 </div>

@@ -29,7 +29,7 @@
 
 </script>
 
-<main>
+<main class='home-screen'>
 	<h1>Home</h1>
 	<button on:click={handleCreateRoom}>방 만들기</button>
 	<button on:click={handleOpenRoomForm}>참가</button>
