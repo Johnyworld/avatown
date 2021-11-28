@@ -4,6 +4,7 @@
   import HomeScreen from '~/routes/HomeScreen.svelte'
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
+  import { currentRoom } from "./store/roomStore";
 </script>
 
 <style lang="scss">
@@ -17,13 +18,16 @@
 
 <div class='root'>
   <Router url=''>
-    <nav>
-      <Link to='/'>Home</Link>
-      <Link to='/room'>Rooms</Link>
-    </nav>
-    <Route path='/' component={HomeScreen} />
-    <Route path='/room' component={RoomsScreen} /> 
-    <Route path='/room/:id' component={RoomScreen} /> 
+    {#if !$currentRoom.code}
+      <nav>
+        <Link to='/'>Home</Link>
+        <Link to='/room'>Rooms</Link>
+      </nav>
+      <Route path='/' component={HomeScreen} />
+      <Route path='/room' component={RoomsScreen} /> 
+    {:else}
+      <Route path='/' component={RoomScreen} />
+    {/if}
   </Router>
   <div use:createPortal={'modals'} class='modals' />
 </div>

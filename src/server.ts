@@ -39,9 +39,19 @@ io.on('connection', socket => {
 		cb({ rooms });
 	})
 
+	socket.on('room_leave', ({ user, room }, cb) => {
+		const rooms = socketUtils.getActiveRooms(io);
+		if (room && rooms.includes(room)) {
+			socket.leave(room);
+			socket.to(room).emit('room_leave', { user })
+			cb({ ok: true })
+		} else {
+			cb({ ok: false })
+		}
+	})
+
 	socket.on('message_send', (data) => {
-		console.log('===== message_send', data);
-		socket.to(data.room).emit('message_resend', data);
+		socket.to(data.room).emit('message_send', data);
 	})
 
 })

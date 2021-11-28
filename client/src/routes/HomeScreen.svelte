@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { socket } from '..';
   import { navigate } from 'svelte-routing'
+	import { currentRoom } from '~/store/roomStore';
 
 	let input: HTMLInputElement | null = null
 	let value = ''
@@ -9,7 +10,7 @@
 
 	const handleCreateRoom = () => {
 		socket.emit('room_create', { payload: value }, (payload: string) => {
-			navigate(`/room/${payload}`);
+			currentRoom.update(() => { return { code: payload }});
 		})
 	}
 
