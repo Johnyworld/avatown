@@ -8,7 +8,7 @@
 	let isOpenRoomForm = false;
 
 	const handleCreateRoom = () => {
-		socket.emit('room_create', { user: $userStore.userInfo?.username }, (payload: string) => {
+		socket.emit('room_create', { user: $userStore.userInfo?.name }, (payload: string) => {
 			navigate('/w/' + payload)
 		})
 	}
@@ -19,7 +19,7 @@
 
 	const handleSubmit: svelte.JSX.FormEventHandler<HTMLFormElement> = (e) => {
 		e.preventDefault()
-		socket.emit('room_join', { room, user: $userStore.userInfo?.username }, ({ ok, data, message }: any) => {
+		socket.emit('room_join', { room, user: $userStore.userInfo?.name }, ({ ok, data, message }: any) => {
 			if (ok) {
 				navigate('/w/' + data)
 			} else {
@@ -46,7 +46,7 @@
 	{#if isOpenRoomForm}
 		<form on:submit={handleSubmit}>
 			<p>이름</p>
-			<p>{$userStore.userInfo?.username}</p>
+			<p>{$userStore.userInfo?.name}</p>
 			<p>방 코드 입력</p>
 			<div>
 				<input required bind:value={room} />

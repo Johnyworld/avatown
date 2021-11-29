@@ -43,11 +43,11 @@ io.on('connection', socket => {
 		cb({ rooms });
 	})
 
-	socket.on('room_leave', ({ user, room }, cb) => {
+	socket.on('room_leave', ({ room }, cb) => {
 		const rooms = socketUtils.getActiveRooms(io);
 		if (room && rooms.includes(room)) {
 			socket.leave(room);
-			socket.to(room).emit('room_leave', { user })
+			socket.to(room).emit('room_leave', { user: socket.data.user })
 			cb({ ok: true })
 		} else {
 			cb({ ok: false, ...errors.room.notExists })
@@ -64,7 +64,17 @@ io.on('connection', socket => {
 		}
 	})
 
+
+	socket.on('disconnecting', () => {
+		console.log('===== disconnected', socket.data);
+		socket.to([ ...socket.rooms ]).emit('room_leave', { user: socket.data.user });
+	})
+
 })
+
+
+
+
 
 server.listen(port, () => {
 	console.log(`✅ Running on http://localhost:${port}`)

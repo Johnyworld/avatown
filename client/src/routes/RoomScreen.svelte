@@ -2,7 +2,6 @@
 
 	import { socket } from '..'
 	import { navigate } from 'svelte-routing'
-	import userStore from '~/store/userStore';
 
 	export let id: string;
 
@@ -27,7 +26,7 @@
 	}
 
 	const handleLeaveRoom = () => {
-		socket.emit('room_leave', { user: $userStore.userInfo?.name, room: id }, ({ ok, message }: any) => {
+		socket.emit('room_leave', { room: id }, ({ ok, message }: any) => {
 			if (ok) {
 				navigate('/')
 			} else {
