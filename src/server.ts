@@ -2,6 +2,7 @@ import http from 'http';
 import SocketIO from 'socket.io';
 import express from 'express';
 import socketUtils from './utils/socketUtils';
+import errors from './errors';
 
 const app = express()
 const root = require('path').join(__dirname, '..', 'client', 'build')
@@ -33,7 +34,7 @@ io.on('connection', socket => {
 			socket.join(room);
 			cb({ ok: true, data: room });
 		} else {
-			cb({ ok: false, message: 'room is not exists', data: room });
+			cb({ ok: false, ...errors.room.notExists, data: room });
 		}
 	})
 
@@ -49,12 +50,18 @@ io.on('connection', socket => {
 			socket.to(room).emit('room_leave', { user })
 			cb({ ok: true })
 		} else {
-			cb({ ok: false })
+			cb({ ok: false, ...errors.room.notExists })
 		}
 	})
 
-	socket.on('message_send', ({ room, message }) => {
-		socket.to(room).emit('message_send', { room, message, user: socket.data.user });
+	socket.on('message_send', ({ room, message }, cb) => {
+		const rooms = socketUtils.getActiveRooms(io);
+		if (room && rooms.includes(room)) {
+			socket.to(room).emit('message_send', { room, message, user: socket.data.user });
+			cb({ ok: true })
+		} else {
+			cb({ ok: false, ...errors.room.notExists })
+		}
 	})
 
 })
