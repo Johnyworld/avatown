@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createPortal } from "./portal";
-  import { Router, Route, Link } from 'svelte-routing'
+  import { Router, Route } from 'svelte-routing'
   import HomeScreen from '~/routes/HomeScreen.svelte'
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
@@ -25,7 +25,7 @@
 
 <div class='root'>
   {#if $userStore.userInfo}
-    <p>로그인 된 유저: {$userStore.userInfo.username}</p>
+    <p>로그인 된 유저: {$userStore.userInfo.name}</p>
   {/if}
   <Router>
     {#if $userStore.userInfo}

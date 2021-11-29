@@ -27,7 +27,7 @@
 	}
 
 	const handleLeaveRoom = () => {
-		socket.emit('room_leave', { user: $userStore.userInfo?.username, room: id }, ({ ok, message }: any) => {
+		socket.emit('room_leave', { user: $userStore.userInfo?.name, room: id }, ({ ok, message }: any) => {
 			if (ok) {
 				navigate('/')
 			} else {

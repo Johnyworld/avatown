@@ -10,6 +10,7 @@
 		e.preventDefault()
 		if (input) {
 			userStore.login(input.value)
+			localStorage.setItem('userInfo', JSON.stringify({ name: input.value }))
 			navigate('/')
 
 		} else {
