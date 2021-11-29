@@ -19,15 +19,16 @@ const io = new SocketIO.Server(server, { cors: {
 io.on('connection', socket => {
 	console.log('--- connected', socket.id);
 
-	socket.on('room_create', (data, cb) => {
-		socket.join('X87aO');
-		cb('X87aO')
+	socket.on('room_create', ({ user }, cb) => {
+		const roomCode = Math.floor(Math.random() * 1000) + ''
+		socket.data = { ...socket.data, user }
+		socket.join(roomCode);
+		cb(roomCode)
 	})
 
-	socket.on('room_join', ({ room, name }, cb) => {
-		socket.data = { ...socket.data, name };
+	socket.on('room_join', ({ room, user }, cb) => {
+		socket.data = { ...socket.data, user };
 		const rooms = socketUtils.getActiveRooms(io);
-		console.log('===== server', rooms, room, name);
 		if (rooms.includes(room)) {
 			socket.join(room);
 			cb({ ok: true, data: room });
@@ -53,8 +54,7 @@ io.on('connection', socket => {
 	})
 
 	socket.on('message_send', ({ room, message }) => {
-		console.log('===== server', socket.data);
-		socket.to(room).emit('message_send', { room, message, user: socket.data.name });
+		socket.to(room).emit('message_send', { room, message, user: socket.data.user });
 	})
 
 })

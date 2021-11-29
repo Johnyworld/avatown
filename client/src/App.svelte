@@ -4,9 +4,14 @@
   import HomeScreen from '~/routes/HomeScreen.svelte'
   import RoomsScreen from "./routes/RoomsScreen.svelte";
   import RoomScreen from "./routes/RoomScreen.svelte";
-  import roomStore from "./store/roomStore";
-import LoginScreen from "./routes/LoginScreen.svelte";
-import userStore from "./store/userStore";
+  import LoginScreen from "./routes/LoginScreen.svelte";
+  import userStore from "./store/userStore";
+  import SettingsScreen from "./routes/SettingsScreen.svelte";
+  import AccountScreen from "./routes/AccountScreen.svelte";
+  import AvatarScreen from "./routes/AvatarScreen.svelte";
+  import FindPasswordScreen from "./routes/FindPasswordScreen.svelte";
+  import NewPasswordScreen from "./routes/NewPasswordScreen.svelte";
+  import GuestScreen from "./routes/GuestScreen.svelte";
 </script>
 
 <style lang="scss">
@@ -23,16 +28,24 @@ import userStore from "./store/userStore";
     <p>로그인 된 유저: {$userStore.userInfo.username}</p>
   {/if}
   <Router>
-    {#if !$roomStore.code}
-      <nav>
-        <Link to='/'>Home</Link>
-        <Link to='/room'>Rooms</Link>
-      </nav>
+    {#if $userStore.userInfo}
+
       <Route path='/' component={HomeScreen} />
-      <Route path='/room' component={RoomsScreen} /> 
-      <Route path='/login' component={LoginScreen} /> 
+      <Route path='/rooms' component={RoomsScreen} /> 
+      <Route path='/settings' component={SettingsScreen} /> 
+      <Route path='/account' component={AccountScreen} /> 
+      <Route path='/avatar' component={AvatarScreen} /> 
+      <Route path='/w/:id' component={RoomScreen} />
+
     {:else}
-      <Route path='/' component={RoomScreen} />
+
+      <Route path='/' component={GuestScreen} />
+      <Route path='/rooms' component={RoomsScreen} /> 
+      <Route path='/login' component={LoginScreen} /> 
+      <Route path='/findpw' component={FindPasswordScreen} /> 
+      <Route path='/newpw' component={NewPasswordScreen} /> 
+      <Route path='/w/:id' component={RoomScreen} />
+
     {/if}
   </Router>
   <div use:createPortal={'modals'} class='modals' />

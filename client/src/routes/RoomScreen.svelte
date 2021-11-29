@@ -1,9 +1,10 @@
 <script lang='ts'>
-	import roomStore from "~/store/roomStore";
 
-	import { socket } from "..";
+	import { socket } from '..'
+	import { navigate } from 'svelte-routing'
+	import userStore from '~/store/userStore';
 
-	// export let id: string;
+	export let id: string;
 
 	let input: HTMLInputElement | null = null
 	let value = '';
@@ -13,16 +14,16 @@
 	const handleSubmit: svelte.JSX.FormEventHandler<HTMLFormElement> = e => {
 		e.preventDefault()
 		if (value) {
-			socket.emit('message_send', { room: $roomStore.code, message: value })
+			socket.emit('message_send', { room: id, message: value })
 			messages = [...messages, { user: 'You', message: value }]
 			if (input) input.value = '';
 		}
 	}
 
 	const handleLeaveRoom = () => {
-		socket.emit('room_leave', { user: 'Hello', room: $roomStore.code }, ({ ok }: any) => {
+		socket.emit('room_leave', { user: $userStore.userInfo?.username, room: id }, ({ ok }: any) => {
 			if (ok) {
-				roomStore.resetCode();
+				navigate('/')
 			} else {
 				alert('실패함')
 			}
@@ -40,7 +41,7 @@
 </script>
 
 <div>
-	<h1>Room: {$roomStore.code}</h1>
+	<h1>Room: {id}</h1>
 	<!-- <p>회의 ID: <b>{id}</b></p> -->
 
 	<form on:submit={handleSubmit}>
